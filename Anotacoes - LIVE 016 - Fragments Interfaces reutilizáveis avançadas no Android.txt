@@ -1,0 +1,103 @@
+LIVE #016 - Fragments: Interfaces reutilizáveis avançadas no Android (Atualizado com Jetpack)
+
+Um Fragment representa uma parte REUTILIZÁVEL da IU (Interface de usuários) do seu app.
+
+Um fragment define e gerencia o próprio layout, tem o próprio ciclo de vida e pode processar os próprios eventos de entrada.
+
+Fragments não podem existir por conta própria. Eles precisam ser hospedados por uma activity ou por outro fragment.
+
+Modularidade:
+
+Os fragments introduzem a modularidade e a reutilização na IU da sua activity, permitindo que você divida a IU em blocos menores e mais fáceis de manter e gerenciar.
+
+Veja o exemplo na imagem fragment-screen-sizes.png
+
+ - Bora para o campo de batalha!
+
+1 - Adicionando a dependência dos Fragments no seu projeto.
+
+implementation "androidx.fragment:fragment-ktx:1.3.6"
+
+Obs: Essa dependência é exclusiva para fragments em Kotlin. Existe a dependência separada para fragments em Java, caso você precise.
+
+2 - Criando uma classe Fragment básica no nosso projeto na unha!
+
+3 - Criando o layout para nossa classe Fragment Básica.
+
+4 - Adicionando o FragmentContainerView na MainActivity
+
+	ATENÇÃO: É altamente recomendável sempre usar um FragmentContainerView como o contêiner para fragmentos, pois FragmentContainerView inclui correções específicas para fragmentos que outros grupos de visualização, como FrameLayout que era utilizado antigamente, não fornecem.
+
+5 - Adicionando o Fragment via XML com o campo android:name
+
+6 - Adicionando o Fragment programaticamente.
+
+7 - Conhecendo o Ciclo de Vida dos Fragments.
+
+	- Possue os mesmos métodos de ciclo de vida das Activities, porém alguns não devem ser usados da mesma forma.
+
+		Todos os eventos do ciclo de vida da activity "host" do fragment são passados para o Fragment.
+
+		Exemplo: Se voce destruir uma activity, o método onDestroy da Activity e o onDestroy do Fragment serão executados.
+
+		Para saber mais sobre o ciclo de vida das activities, assista a LIVE #007, link disponível nessa página: https://www.linkedin.com/pulse/lista-de-aulas-ao-vivo-kaique-ocanha/
+
+	- O ciclo de vida de um fragment é mais complexo, pois as views podem ser recriadas durante o mesmo ciclo, algo que não acontece no ciclo de vida das activities.
+
+	Por isso, não devemos tratar o ciclo de vida dos fragments da mesma forma que tratamos o das activities.
+
+	Por exemplo:
+
+	 - O método onCreate
+
+	 	Nas activities:
+
+	 	Esse método é chamado imediatamente quando a Activity é criada. Nas activities, a view já é definida no método onCreate, e nele mesmo você já pode interagir com a view (Definir um texto em um textview, iniciar um observer de uma viewmodel, etc.)
+
+	 	Nos FRAGMENTS:
+
+	 	Já nos fragments, o método onCreate é chamado também quando o Fragment é criado, porém NÃO é aqui que o Fragment define seu conteúdo e cria sua view!
+
+	 	Por isso, você não pode tentar interagir com a view do Fragment no onCreate, pois isso causará uma exceção na sua aplicação.
+
+	 	Nos fragments, dentro do onCreate, se contenha a apenas a realizar lógicas que NÃO ENVOLVAM a View, ou seja, a interface. Ações como receber informações da acitivity, inicializar classes e esse tipo de coisa podem ser realizados no método onCreate do seu Fragment.
+
+	 	Veremos mais sobre como receber dados da activity no fragment mais a frente nessa aula.
+
+	Nos fragments, você deve realizar ações que envolvam a view (IU - Interface de usuário) apenas depois do método onCreateView ser executado!
+
+	O método onCreateView é onde o fragment cria e define seu conteudo visual. Esse método geralmente NÃO É IMPLEMENTADO quando trabalhamos com Kotlin, pois ele pode ser substituido simplemente pela passagem do layout direto no construtor do Fragment, na definição da classe.
+
+	Para garantir que você só vai trabalhar com a sua interface DEPOIS que esse método é executado, existe o método chamado onViewCreated, que é chamado exatamente após o onCreateView.
+
+	IMPORTANTE: É a partir da execução do método onViewCreated que você deve trabalhar com a sua interface e tudo que envolver atualizar o conteúdo do seu fragment. É AQUI que voce vai definir um texto em um textview, iniciar um observer de uma viewmodel, definir um clickListener em um botão, etc.
+
+8 - Passando dados entre Activities e Fragments.
+
+9 - Passando objetos entre Activities e Fragments.
+
+10 - Criando nosso segundo Fragment (Agora utilizando o criador do Android Studio)
+
+11 - Transacionando entre vários fragments na mesma activity.
+
+12 - Passando dependencias para seu Fragment(Injeção de dependências BÁSICA em Fragments)
+
+	Passar a dependencia direto para o Fragment NÃO É A FORMA CORRETA DE SE FAZER!
+
+	- Por padrão, o FragmentManager usa um FragmentFactory fornecido pelo framework para instanciar uma nova instância do seu fragmento.
+
+	Essa factory padrão usa reflexão para localizar e invocar um construtor sem argumento para seu fragmento. 
+
+	Isso significa que não é possível usar essa fábrica padrão para fornecer dependências para seu fragmento.
+
+	Além disso, por padrão, qualquer construtor personalizado usado para criar o fragmento na primeira vez não será usado durante a recriação.
+
+	Ou seja, no momento de recriação do seu fragment, ELE NÃO RECEBERA AS DEPENDENCIAS DO CONSTRUTOR QUE VOCE PASSOU, e consequentemente seu APP VAI CRASHAR!
+
+COMO RESOLVER ISSO?
+
+Como vimos, o FragmentManager precisa de uma Factory que "ensine" como ele deve criar seu Fragment que possui dependências, já que a padrão não da esse suporte.
+
+Entao, para resovermos, temos de criar uma factory para os Fragments que possuem dependencias.
+
+Esse processo é muito parecido com o que já vimos como fazer com as ViewModels, na LIVE #008, link disponível nessa página: https://www.linkedin.com/pulse/lista-de-aulas-ao-vivo-kaique-ocanha/
