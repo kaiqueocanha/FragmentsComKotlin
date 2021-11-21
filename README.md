@@ -1,10 +1,10 @@
-![LIVE #017 - Navigation Component: A MELHOR FORMA de criar fluxos de navegação para o seu app!](http://i3.ytimg.com/vi/dvD4bUcc6vU/maxresdefault.jpg "LIVE #017 - Navigation Component: A MELHOR FORMA de criar fluxos de navegação para o seu app!")
+![LIVE #016 - Fragments: Interfaces reutilizáveis avançadas no Android (Atualizado com Jetpack)](http://i3.ytimg.com/vi/hr2fhWskrFU/maxresdefault.jpg "LIVE #016 - Fragments: Interfaces reutilizáveis avançadas no Android (Atualizado com Jetpack)")
 
-# LIVE #017 - Navigation Component: A MELHOR FORMA de criar fluxos de navegação para o seu app!
+# LIVE #016 - Fragments: Interfaces reutilizáveis avançadas no Android (Atualizado com Jetpack)
 
-Código fonte do projeto criado na live #017, ensinando como utilizar o Navigation Component com Safe Args no Androd com Kotlin, código de exemplo e explicação completa!
+Código fonte do projeto criado na live #016, ensinando como utilizar Fragments com Kotlin no Android.
 
-**Para assitir a AULA COMPLETA, [clique aqui](https://youtu.be/dvD4bUcc6vU)**
+**Para assitir a AULA COMPLETA, [clique aqui](https://youtu.be/hr2fhWskrFU)**
 
 Não esqueça de deixar sua estrela no repositório se esse código te ajudou!
 
